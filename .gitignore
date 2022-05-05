@@ -1,3 +1,8 @@
+# Archivos
+.env
+package-lock.json
+
+# Carpetas
+.vscode/*
 dist/*
 node_modules/*
-.env
