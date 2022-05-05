@@ -31,16 +31,17 @@ export const postUsuario = async (req: Request, res: Response) => {
   const { body } = req;
 
   try {
-    const existeEmail = await Usuario.findOne({ where: { email: body.email } });
+    const existeUsuario = await Usuario.findOne({ where: { nombre_usuario: body.nombre_usuario } });
 
-    if (existeEmail) {
-      return res.status(400).json({ msg: `Ya existe un usuario con el email ${body.email}` });
+    if (existeUsuario) {
+      return res.status(400).json({ msg: `Ya existe el usuario: ${body.nombre_usuario}` });
     }
+
     const usuario = await Usuario.create(body);
 
     res.json({ usuario });
   } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar crear el usuario ${body.email}`, error });
+    res.status(500).json({ msg: `Error al intentar crear el usuario ${body.nombre_usuario}`, error });
   }
 };
 

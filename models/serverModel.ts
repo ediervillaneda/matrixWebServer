@@ -1,7 +1,8 @@
 import express, { Application } from "express";
-import userRoutes from "../routes/usuario";
 import cors from "cors";
-import db from "../db/connectios";
+
+import userDB from "../db/connection";
+import userRoutes from "../routes/usuarioRoutes";
 
 // import db from '../db/connection';
 
@@ -11,10 +12,14 @@ class Server {
   private apiPaths = {
     usuarios: "/api/usuarios",
   };
+  private db: string = "";
 
   constructor() {
     this.app = express();
-    this.port = process.env.PORT || "8000";
+    this.port = process.env.PROD_PORT || "4001";
+    if (process.env.STATUS === "produccion") {
+      this.port = process.env.DEV_PORT || "4000";
+    }
 
     // Métodos iniciales
     this.dbConnection();
@@ -24,8 +29,11 @@ class Server {
 
   async dbConnection() {
     try {
-      await db.authenticate();
-      console.log("Database online");
+      this.db = process.env.MYSQL_USUARIOS_DB || "";
+      if (this.db === "") {
+        await userDB.authenticate();
+      }
+      console.log(`Database ${process.env.MYSQL_USUARIOS_DB} online`);
     } catch (error: any) {
       throw new Error(error);
     }
@@ -48,7 +56,7 @@ class Server {
 
   listen() {
     this.app.listen(this.port, () => {
-      console.log("Servidor corriendo en puerto " + this.port);
+      console.log(`Servidor en modo ${process.env.STATUS} corriendo en puerto *:${this.port}`);
     });
   }
 }
