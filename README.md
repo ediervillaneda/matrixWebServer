@@ -34,6 +34,48 @@ Compilar e iniciar el servidor
 ### Obtener todos los usuarios
 
 ```http
+  POST /api/login
+```
+Para realizar cualquier operacion conla APi, necesitara un Token de autorización. Untoken de autorizacio, otorga un acceso limiado a las consultas que se pueden realzar.La unica forma de obtener un token es por medio del logueo y en el cual este sera autoemitido.
+
+Ejemplo del request:
+```
+POST /v1/publications/b45573563f5a/posts HTTP/1.1
+Host: api.medium.com
+Authorization: Bearer 181d415f34379af07b2c11d144dfbe35d
+Content-Type: application/json
+Accept: application/json
+Accept-Charset: utf-8
+
+{
+    "nombre_usuario": "edvillaneda",
+    "contrasena":"12345678"
+}
+```
+
+Si el login es satisfactorio, se recibe de respuesta el token de autorizacion.
+```
+HTTP/1.1 201 OK
+Content-Type: application/json; charset=utf-8
+
+{
+  "token_sesion": {{token}}
+}
+```
+Con los siguientes parametros:
+
+| Parametro       | Tipo         |  Descripción                                     |
+| -------------   |--------------|--------------------------------------------------|
+| `token_sesion`  | string       |  Un token que es válido por 1 hora y puede usarse para realizar solicitudes autenticadas en nombre del usuario. |
+
+Se debe tener en cuenta que:
+- Todas las Api, necesitan tener en el header, en el campo Authorization el valor del token para poder realizar operaciones.
+- Si requiere generar un nuevo token,debe realizar de nuevo el proceso de logueo.
+
+
+### **Obtener todos los usuarios**
+
+```http
   GET /api/usuarios
 ```
 Retorna la lista de usuarios registrados en la aplicación.
