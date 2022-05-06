@@ -9,7 +9,7 @@ const host = process.env.MYSQL_USUARIOS_HOST || " ";
 const userDB = new Sequelize(database, user, pass, {
   host,
   dialect: "mysql",
-  logging: false,
+  logging: true,
   // define: {
   //   timestamps: false,
   // },

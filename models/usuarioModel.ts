@@ -10,7 +10,7 @@ const Usuario = db.define(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: { msg: "El nopmbre del usuario es requerido" },
+        notEmpty: { msg: "El nombre del usuario es requerido" },
       },
     },
     estado_usuario: {
@@ -20,9 +20,8 @@ const Usuario = db.define(
         notEmpty: { msg: "El estado del usuario es requerido" },
       },
     },
-    token_sesion: {
-      type: DataTypes.STRING,
-    },
+    ultimo_ingreso: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+    token_sesion: DataTypes.STRING,
     codigo_dependencia: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -41,15 +40,9 @@ const Usuario = db.define(
         this.setDataValue("contrasena", bcrypt.hashSync(value, salt));
       },
     },
-    cedula: {
-      type: DataTypes.STRING,
-    },
-    empresa: {
-      type: DataTypes.STRING,
-    },
-    cargo: {
-      type: DataTypes.STRING,
-    },
+    cedula: DataTypes.STRING,
+    empresa: DataTypes.STRING,
+    cargo: DataTypes.STRING,
     correo: {
       type: DataTypes.STRING,
       validate: {

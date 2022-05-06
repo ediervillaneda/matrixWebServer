@@ -2,15 +2,21 @@ import express, { Application } from "express";
 import cors from "cors";
 
 import userDB from "../db/connection";
-import userRoutes from "../routes/usuarioRoutes";
 
-// import db from '../db/connection';
+// rutas
+import userRoutes from "../routes/usuarioRoutes";
+import authRoutes from "../routes/authRoutes";
+
+//middlewares
+import validarJWS from "../middlewares/validarJWS";
+import validarCampos from "../middlewares/validarCampos";
 
 class Server {
   private app: Application;
   private port: string;
   private apiPaths = {
     usuarios: "/api/usuarios",
+    login: "/api/login",
   };
   private db: string = "";
 
@@ -32,6 +38,7 @@ class Server {
       this.db = process.env.MYSQL_USUARIOS_DB || "";
       if (this.db === "") {
         await userDB.authenticate();
+        // await matrixDB.authenticate();
       }
       console.log(`Database ${process.env.MYSQL_USUARIOS_DB} online`);
     } catch (error: any) {
@@ -48,10 +55,13 @@ class Server {
 
     // Carpeta pública
     this.app.use(express.static("public"));
+
+    this.app.use(validarCampos);
   }
 
   routes() {
     this.app.use(this.apiPaths.usuarios, userRoutes);
+    this.app.use(this.apiPaths.login, authRoutes);
   }
 
   listen() {
