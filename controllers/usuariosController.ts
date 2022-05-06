@@ -6,7 +6,7 @@ import Usuario from "../models/usuarioModel";
  */
 export const getUsuarios = async (req: Request, res: Response) => {
   try {
-    const usuarios = await Usuario.findAll({ attributes: { exclude: ['contrasena'] } });
+    const usuarios = await Usuario.findAll({ attributes: { exclude: ["contrasena", "token_sesion"] } });
     res.json({ usuarios });
   } catch (error: any) {
     res.status(404).json({ msg: `Error al intentar buscar los usuarios`, error });
@@ -17,37 +17,33 @@ export const getUsuarios = async (req: Request, res: Response) => {
  * Obtener un usuario por id
  */
 export const getUsuario = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { query } = req;
+
+  if (!query.length) {
+    res.status(404).json({ msg: `Error al intentar buscar el usuario` });
+  }
 
   try {
-    const usuarios = await Usuario.findByPk(id);
+    let where = {};
 
-    if (usuarios) {
-      res.json({ usuarios });
+    if (query.id) {
+      where = { id: query.id };
+    } else if (query.nombre_usuario) {
+      where = { nombre_usuario: query.nombre_usuario };
+    }
+
+    const usuario = await Usuario.findOne({
+      where: where,
+      attributes: { exclude: ["contrasena", "token_sesion"] },
+    });
+
+    if (usuario) {
+      res.status(200).json({ usuario });
     } else {
       res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
     }
   } catch (error: any) {
     res.status(500).json({ msg: `Error al intentar buscar el usuario ${id}`, error });
-  }
-};
-
-/**
- * Obtener un usuario por nombre_usuario
- */
-export const getUsuarioByNom = async (req: Request, res: Response) => {
-  const { nombre_usuario } = req.params;
-
-  try {
-    const usuarios = await Usuario.findOne({ where: { nombre_usuario: nombre_usuario } });
-
-    if (usuarios) {
-      res.json({ usuarios });
-    } else {
-      res.status(404).json({ msg: `No existe un usuario con el nombre ${nombre_usuario}` });
-    }
-  } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar buscar el usuario ${nombre_usuario}`, error });
   }
 };
 
@@ -66,7 +62,7 @@ export const postUsuario = async (req: Request, res: Response) => {
 
     const usuario = await Usuario.create(body);
 
-    res.json({ usuario });
+    res.status(200).json({ usuario });
   } catch (error: any) {
     res.status(500).json({ msg: `Error al intentar crear el usuario ${body.nombre_usuario}`, error });
   }
@@ -84,7 +80,7 @@ export const putUsuario = async (req: Request, res: Response) => {
     if (usuario) {
       usuario.set(body);
       await usuario.save();
-      res.json({ usuario });
+      res.status(200).json({ msg: `Usuario ${usuario.getDataValue("nombre_usuario")} actualizado` });
     } else {
       res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
     }
@@ -115,7 +111,7 @@ export const deleteUsuario = async (req: Request, res: Response) => {
           break;
       }
       await usuario.save({ fields: ["estado"] });
-      res.json({ msg: `Usuario con id '${id}' ${msg}` });
+      res.json({ msg: `Usuario '${usuario.getDataValue("nombre_usuario")}' ${msg}` });
     } else {
       res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
     }

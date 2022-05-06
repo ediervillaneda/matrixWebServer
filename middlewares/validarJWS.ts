@@ -16,8 +16,6 @@ const validarJWS = async (req: Request, res: Response, next: NextFunction) => {
 
     const usuario = await Usuario.findByPk(decoded.uid);
 
-    console.log(usuario);
-
     if (!usuario) {
       return res.status(401).json({ msg: "El `Token` no es válido o ha sido revocado" });
     }
@@ -28,7 +26,7 @@ const validarJWS = async (req: Request, res: Response, next: NextFunction) => {
 
     next();
   } catch (error) {
-    res.status(500).json({ msg: "Error al validar el token", error });
+    res.status(401).json({ msg: "El `Token` no es válido o ha sido revocado", error });
   }
 };
 
