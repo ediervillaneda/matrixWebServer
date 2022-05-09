@@ -1,11 +1,18 @@
 import { DataTypes } from "sequelize";
-import db from "../db/connection";
+import userDB from "../db/connectionUsers";
 
 const bcrypt = require("bcryptjs");
 
-const Usuario = db.define(
+const Usuario = userDB.define(
   "usuario",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+      field: "id_usuario",
+    },
     nombre_usuario: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -9,7 +9,7 @@ const login = async (req: Request, res: Response) => {
   const { nombre_usuario, contrasena } = req.body;
 
   try {
-    const usuario = await Usuario.findOne({ where: { nombre_usuario } });
+    const usuario = await Usuario.findOne({ where: { nombre_usuario, estado_usuario: 1 } });
 
     if (usuario) {
       let uPass = usuario.getDataValue("contrasena");

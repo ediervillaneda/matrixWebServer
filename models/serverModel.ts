@@ -1,7 +1,9 @@
 import express, { Application } from "express";
 import cors from "cors";
 
-import userDB from "../db/connection";
+// Bases de datos
+import userDB from "../db/connectionUsers";
+import matrixDB from "../db/connectionMatrix";
 
 // rutas
 import userRoutes from "../routes/usuarioRoutes";
@@ -36,11 +38,18 @@ class Server {
   async dbConnection() {
     try {
       this.db = process.env.MYSQL_USUARIOS_DB || "";
-      if (this.db === "") {
+      if (!this.db) {
         await userDB.authenticate();
-        // await matrixDB.authenticate();
       }
+
       console.log(`Database ${process.env.MYSQL_USUARIOS_DB} online`);
+
+      this.db = process.env.MYSQL_MATRIX_DB || "";
+      if (!this.db) {
+        await matrixDB.authenticate();
+      }
+      console.log(`Database ${process.env.MYSQL_MATRIX_DB} online`);
+
     } catch (error: any) {
       throw new Error(error);
     }

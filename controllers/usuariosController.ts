@@ -14,7 +14,7 @@ export const getUsuarios = async (req: Request, res: Response) => {
 };
 
 /**
- * Obtener un usuario por id
+ * Obtener un usuario por id o nombre de usuario
  */
 export const getUsuario = async (req: Request, res: Response) => {
   const { query } = req;
@@ -40,10 +40,10 @@ export const getUsuario = async (req: Request, res: Response) => {
     if (usuario) {
       res.status(200).json({ usuario });
     } else {
-      res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
+      res.status(404).json({ msg: `No existe un usuario` });
     }
   } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar buscar el usuario ${id}`, error });
+    res.status(500).json({ msg: `Error al intentar buscar el usuario`, error });
   }
 };
 
@@ -82,10 +82,10 @@ export const putUsuario = async (req: Request, res: Response) => {
       await usuario.save();
       res.status(200).json({ msg: `Usuario ${usuario.getDataValue("nombre_usuario")} actualizado` });
     } else {
-      res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
+      res.status(404).json({ msg: `No existe un usuario con el id` });
     }
   } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar actualizar el usuario ${id}`, error });
+    res.status(500).json({ msg: `Error al intentar actualizar el usuario`, error });
   }
 };
 
