@@ -1,8 +1,5 @@
-import dotenv from "dotenv";
+require("dotenv").config();
 import Server from "./models/serverModel";
-
-// Cargar variables de entorno
-dotenv.config();
 
 const server = new Server();
 

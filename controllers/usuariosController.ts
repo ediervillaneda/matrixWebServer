@@ -1,49 +1,76 @@
 import { Request, Response } from "express";
-import { json } from "sequelize/types";
 import Usuario from "../models/usuarioModel";
 
+/**
+ * Obtener todos los usuarios
+ */
 export const getUsuarios = async (req: Request, res: Response) => {
   try {
-    const usuarios = await Usuario.findAll();
+    const usuarios = await Usuario.findAll({ attributes: { exclude: ["contrasena", "token_sesion"] } });
     res.json({ usuarios });
   } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar buscar los usuarios`, error });
+    res.status(404).json({ msg: `Error al intentar buscar los usuarios`, error });
   }
 };
 
+/**
+ * Obtener un usuario por id o nombre de usuario
+ */
 export const getUsuario = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { query } = req;
+
+  if (!query.length) {
+    res.status(404).json({ msg: `Error al intentar buscar el usuario` });
+  }
 
   try {
-    const usuarios = await Usuario.findByPk(id);
+    let where = {};
 
-    if (usuarios) {
-      res.json({ usuarios });
+    if (query.id) {
+      where = { id: query.id };
+    } else if (query.nombre_usuario) {
+      where = { nombre_usuario: query.nombre_usuario };
+    }
+
+    const usuario = await Usuario.findOne({
+      where: where,
+      attributes: { exclude: ["contrasena", "token_sesion"] },
+    });
+
+    if (usuario) {
+      res.status(200).json({ usuario });
     } else {
-      res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
+      res.status(404).json({ msg: `No existe un usuario` });
     }
   } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar buscar el usuario ${id}`, error });
+    res.status(500).json({ msg: `Error al intentar buscar el usuario`, error });
   }
 };
 
+/**
+ * Crear un usuario
+ */
 export const postUsuario = async (req: Request, res: Response) => {
   const { body } = req;
 
   try {
-    const existeEmail = await Usuario.findOne({ where: { email: body.email } });
+    const existeUsuario = await Usuario.findOne({ where: { nombre_usuario: body.nombre_usuario } });
 
-    if (existeEmail) {
-      return res.status(400).json({ msg: `Ya existe un usuario con el email ${body.email}` });
+    if (existeUsuario) {
+      return res.status(400).json({ msg: `Ya existe el usuario: ${body.nombre_usuario}` });
     }
+
     const usuario = await Usuario.create(body);
 
-    res.json({ usuario });
+    res.status(200).json({ usuario });
   } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar crear el usuario ${body.email}`, error });
+    res.status(500).json({ msg: `Error al intentar crear el usuario ${body.nombre_usuario}`, error });
   }
 };
 
+/**
+ * Actualizar un usuario
+ */
 export const putUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { body } = req;
@@ -53,15 +80,18 @@ export const putUsuario = async (req: Request, res: Response) => {
     if (usuario) {
       usuario.set(body);
       await usuario.save();
-      res.json({ usuario });
+      res.status(200).json({ msg: `Usuario ${usuario.getDataValue("nombre_usuario")} actualizado` });
     } else {
-      res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
+      res.status(404).json({ msg: `No existe un usuario con el id` });
     }
   } catch (error: any) {
-    res.status(500).json({ msg: `Error al intentar actualizar el usuario ${id}`, error });
+    res.status(500).json({ msg: `Error al intentar actualizar el usuario`, error });
   }
 };
 
+/**
+ * Inhabilitar un usuario
+ */
 export const deleteUsuario = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -81,7 +111,7 @@ export const deleteUsuario = async (req: Request, res: Response) => {
           break;
       }
       await usuario.save({ fields: ["estado"] });
-      res.json({ msg: `Usuario con id '${id}' ${msg}` });
+      res.json({ msg: `Usuario '${usuario.getDataValue("nombre_usuario")}' ${msg}` });
     } else {
       res.status(404).json({ msg: `No existe un usuario con el id ${id}` });
     }
