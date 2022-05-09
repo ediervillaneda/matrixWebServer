@@ -5,10 +5,14 @@ import login from "../controllers/authController";
 
 const router = Router();
 
-router.post("/", login, [
-  check("contraseña", "La contraseña debe tener al menos un numero").notEmpty(),
-  check("constraseña", "La contraseña debe tener al menos 6 caracteres").isLength({ min: 6 }),
-  validarCampos,
-]);
+router.post(
+  "/",
+  [
+    check("nombre_usuario", "El usuario no puede estar vacio").notEmpty(),
+    check("contrasena", "La contraseña debe tener al menos un numero").notEmpty(),
+    validarCampos,
+  ],
+  login
+);
 
 export default router;
