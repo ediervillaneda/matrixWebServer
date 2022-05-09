@@ -1,32 +1,32 @@
 # Matrix Web Server
 
-API de datos de Matrix, implementacion de servicios para la consulta de tablas e manejo de datos por medio de procedimientos almacenados en base de datos MySQL.
+API de datos de Matrix, implementación de servicios para la consulta de tablas y manejo de datos por medio de procedimientos almacenados en base de datos MySQL.
 
 ## Ejecutar Localmente
 
 Clonar el proyecto
 
 ```bash
-  git clone https://github.com/ediervillaneda/matrixWebServer.git
+ git clone https://github.com/ediervillaneda/matrixWebServer.git
 ```
 
 Ingresar al directorio del proyecto
 
 ```bash
-  cd matrixWebServer
+ cd matrixWebServer
 ```
 
 Instalar las dependencias npm ![npm](https://img.shields.io/npm/v/bcryptjs)
 
 ```bash
-  npm install
+ npm install
 ```
 
 Compilar e iniciar el servidor
 
 ```bash
-  npm run build
-  npm run start
+ npm run build
+ npm run start
 ```
 
 ## Referencia del API
@@ -34,9 +34,9 @@ Compilar e iniciar el servidor
 ### Obtener todos los usuarios
 
 ```http
-  POST /api/login
+ POST /api/login
 ```
-Para realizar cualquier operacion conla APi, necesitara un Token de autorización. Untoken de autorizacio, otorga un acceso limiado a las consultas que se pueden realzar.La unica forma de obtener un token es por medio del logueo y en el cual este sera autoemitido.
+Para realizar cualquier operación con la API, necesitará un Token de autorización. Un Token de autorización, otorga un acceso limitado a las consultas que se pueden realizar. La única forma de obtener un token es por medio del logueo y en el cual éste será autoemitido.
 
 Ejemplo del request:
 ```
@@ -48,23 +48,23 @@ Accept: application/json
 Accept-Charset: utf-8
 
 {
-    "nombre_usuario": "edvillaneda",
-    "contrasena":"12345678"
+   "nombre_usuario": "edvillaneda",
+   "contrasena":"12345678"
 }
 ```
 
-Si el login es satisfactorio, se recibe de respuesta el token de autorizacion.
+Si el login es satisfactorio, se recibe de respuesta el token de autorización.
 ```
 HTTP/1.1 201 OK
 Content-Type: application/json; charset=utf-8
 
 {
-  "token_sesion": {{token}}
+ "token_sesion": {{token}}
 }
 ```
-Con los siguientes parametros:
+Con los siguientes parámetros:
 
-| Parametro       | Tipo         |  Descripción                                     |
+| Parámetro       | Tipo         |  Descripción                                     |
 | -------------   |--------------|--------------------------------------------------|
 | `token_sesion`  | string       |  Un token que es válido por 1 hora y puede usarse para realizar solicitudes autenticadas en nombre del usuario. |
 
@@ -76,7 +76,7 @@ Se debe tener en cuenta que:
 ### **Obtener todos los usuarios**
 
 ```http
-  GET /api/usuarios
+ GET /api/usuarios
 ```
 Retorna la lista de usuarios registrados en la aplicación.
 
@@ -100,31 +100,31 @@ HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 
 {
-    "usuarios": {
-        "id": 520,
-        "nombre_usuario": "edvillaneda",
-        "estado_usuario": "1",
-        "token_sesion": "",
-        "codigo_dependencia": "0",
-        "contrasena": "$2a$10$tXaFymuuJ/s5Fa.H4Jc0ouKVNwMlRhQfKaVDIvwqHyPt1odBlx/IG",
-        "cedula": "16864870",
-        "empresa": "PersonalSoft",
-        "cargo": "Senior Developer",
-        "correo": "edvillaneda@personalsoft.com"
-    }
+   "usuarios": {
+       "id": 520,
+       "nombre_usuario": "edvillaneda",
+       "estado_usuario": "1",
+       "token_sesion": "",
+       "codigo_dependencia": "0",
+       "contrasena": "$2a$10$tXaFymuuJ/s5Fa.H4Jc0ouKVNwMlRhQfKaVDIvwqHyPt1odBlx/IG",
+       "cedula": "16864870",
+       "empresa": "PersonalSoft",
+       "cargo": "Senior Developer",
+       "correo": "edvillaneda@personalsoft.com"
+   }
 }
 ```
 
 | Parameter            | Type      | Description                           |
 | :------------------- | :-------- | :-------------------------------------|
-| `nombre_usuario`     | `string`  | Nombre de usuario de la aplicacion.   |
+| `nombre_usuario`     | `string`  | Nombre de usuario de la aplicación.   |
 | `estado_usuario`     | `boolean` | Indicador de usuario activo/inactivo. |
 | `codigo_dependencia` | `string`  | Nombre del usuario.                   |
 | `contrasena`         | `string`  | Nombre del usuario.                   |
-| `cedula`             | `string`  | Numero de identificación del usuario. |
+| `cedula`             | `string`  | Número de identificación del usuario. |
 | `empresa`            | `string`  | Empresa del usuario.                  |
 | `cargo`              | `string`  | Cargo del usuario.                    |
-| `correo`             | `string`  | Correo electronico del usuario.       |
+| `correo`             | `string`  | Correo electrónico del usuario.       |
 
 Posibles errores:
 | Codigo de Error  | Descripción                                 |
@@ -136,7 +136,7 @@ Posibles errores:
 ### Obtener un usuario por id
 
 ```http
-  GET /api/usuarios/${id}
+ GET /api/usuarios/${id}
 ```
 
 | Parameter | Type     | Description                   |
@@ -146,16 +146,17 @@ Posibles errores:
 ### Obtener un usuario por nombre
 
 ```http
-  GET /api/usuarios/${nombre}
+ GET /api/usuarios/${nombre}
 ```
 
-## Variables de Entorno
+## Variables de Entorno (Archivo .env)
 
-PAra ejecutar este proyecto es necesario configurar las variables de entorno, en el archivo .env que debe existir o crearse en la raiz.
+Para ejecutar este proyecto es necesario configurar las variables de entorno, en el archivo .env que debe existir o crearse en la raíz.
 
 `STATUS=` Ambiente de desarrollo
 
 `DEV_PORT=` Puerto del servidor en el ambiente de desarrollo
+
 `PROD_PORT=` Puerto del servidor en el ambiente de producción
 
 `JWT_SECRET=` Llave secreta de la autenticación
@@ -171,9 +172,13 @@ PAra ejecutar este proyecto es necesario configurar las variables de entorno, en
 `MYSQL_USUARIOS_DB=''`
 
 ### Conexion a BD Mysql Matrix
+
 `MYSQL_MATRIX_HOST=''`
+
 `MYSQL_MATRIX_USER=''`
+
 `MYSQL_MATRIX_PASS=''`
+
 `MYSQL_MATRIX_DB=''`
 
 ## Authors
