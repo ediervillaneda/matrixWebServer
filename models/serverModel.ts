@@ -42,13 +42,13 @@ class Server {
         await userDB.authenticate();
       }
 
-      console.log(`Database ${process.env.MYSQL_USUARIOS_DB} online`);
+      console.log(`Base de datos ${process.env.MYSQL_USUARIOS_DB} en linea`);
 
       this.db = process.env.MYSQL_MATRIX_DB || "";
       if (!this.db) {
         await matrixDB.authenticate();
       }
-      console.log(`Database ${process.env.MYSQL_MATRIX_DB} online`);
+      console.log(`Base de datos ${process.env.MYSQL_MATRIX_DB} en linea`);
 
     } catch (error: any) {
       throw new Error(error);
