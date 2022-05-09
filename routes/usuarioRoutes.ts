@@ -7,18 +7,18 @@ import validarJWS from "../middlewares/validarJWS";
 
 const router = Router();
 
-router.use(validarCampos);
-router.use(check);
-// router.use(validarJWS);
-
 router.get("/", getUsuarios);
-router.get("/getOne", getUsuario, [validarJWS]);
-router.post("/create", postUsuario, [
-  check("contraseña", "La contraseña debe tener al menos un numero").notEmpty(),
-  check("constraseña", "La contraseña debe tener al menos 6 caracteres").isLength({ min: 6 }),
-  validarCampos,
-  // validarJWS,
-]);
+router.get("/getOne", [validarJWS], getUsuario);
+router.post(
+  "/create",
+  [
+    check("contraseña", "La contraseña debe tener al menos un numero").notEmpty(),
+    check("constraseña", "La contraseña debe tener al menos 6 caracteres").isLength({ min: 6 }),
+    validarCampos,
+    validarJWS,
+  ],
+  postUsuario
+);
 router.put("/update/:id", putUsuario);
 router.delete("/delete/:id", deleteUsuario);
 
