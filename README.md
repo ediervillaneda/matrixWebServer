@@ -162,13 +162,19 @@ PAra ejecutar este proyecto es necesario configurar las variables de entorno, en
 
 ### Conexion a BD Mysql Usuarios
 
-`MYSQL_USUARIOS_HOST=`
+`MYSQL_USUARIOS_HOST=''`
 
-`MYSQL_USUARIOS_USER=`
+`MYSQL_USUARIOS_USER=''`
 
-`MYSQL_USUARIOS_PASS=`
+`MYSQL_USUARIOS_PASS=''`
 
-`MYSQL_USUARIOS_DB=`
+`MYSQL_USUARIOS_DB=''`
+
+### Conexion a BD Mysql Matrix
+`MYSQL_MATRIX_HOST=''`
+`MYSQL_MATRIX_USER=''`
+`MYSQL_MATRIX_PASS=''`
+`MYSQL_MATRIX_DB=''`
 
 ## Authors
 
