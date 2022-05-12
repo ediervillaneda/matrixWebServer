@@ -34,7 +34,7 @@ Compilar e iniciar el servidor
 ### Obtener todos los usuarios
 
 ```http
- POST /api/login
+POST /api/login
 ```
 
 Para realizar cualquier operación con la API, necesitará un Token de autorización. Un Token de autorización, otorga un acceso limitado a las consultas que se pueden realizar. La única forma de obtener un token es por medio del logueo y en el cual éste será autoemitido.
@@ -67,14 +67,14 @@ HTTP/1.1 201 OK
 Content-Type: application/json; charset=utf-8
 
 {
- "token_sesion": {{token}}
+ "token_sesion": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUyMCwiaWF0IjoxNjUyMzYzODcwLCJleHAiOjE2NTIzNjc0NzB9.yZb5mauyyo5RukxrQnnetFUe5K2VKUuqA83Hikv6Opw
 }
 ```
 
 ##### Descripción de la respuesta
 
-| Parámetro      | Tipo   | Descripción                                                                                                    |
-| -------------- | ------ | -------------------------------------------------------------------------------------------------------------- |
+| Parámetro      | Tipo   | Descripción |
+| -------------- | ------ | ----------- |
 | `token_sesion` | string | Un token que es válido por 1 hora y puede usarse para realizar solicitudes autenticadas en nombre del usuario. |
 
 ##### Se debe tener en cuenta que:
@@ -85,7 +85,7 @@ Content-Type: application/json; charset=utf-8
 ### **Obtener todos los usuarios**
 
 ```http
- GET /api/usuarios
+GET /api/usuarios
 ```
 
 Retorna la lista de todos los usuarios registrados en la aplicación.
