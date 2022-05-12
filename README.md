@@ -48,7 +48,7 @@ Accept: application/json
 Accept-Charset: utf-8
 
 {
-   "nombre_usuario": "edvillaneda",
+   "nombre_usuario": "developer",
    "contrasena":"12345678"
 }
 ```
