@@ -2,7 +2,7 @@
 ### **Registros de la tabla 'cliame_000105'**
 
 ```http
-GET /api/matrix/105
+GET /api/cliame/105
 ```
 Retorna la lista de parámetros filtrados por el indicador suministrado.
 
