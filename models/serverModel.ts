@@ -6,8 +6,7 @@ import userDB from "../db/connectionUsers";
 import matrixDB from "../db/connectionMatrix";
 
 // rutas
-import userRoutes from "../routes/usuarioRoutes";
-import authRoutes from "../routes/authRoutes";
+import routes from "../routes";
 
 //middlewares
 import validarJWS from "../middlewares/validarJWS";
@@ -15,7 +14,7 @@ import validarCampos from "../middlewares/validarCampos";
 
 class Server {
   private app: Application;
-  private port: string;
+  private port!: string;
   private apiPaths = {
     usuarios: "/api/usuarios",
     login: "/api/login",
@@ -24,9 +23,19 @@ class Server {
 
   constructor() {
     this.app = express();
-    this.port = process.env.PROD_PORT || "4001";
-    if (process.env.STATUS === "produccion") {
-      this.port = process.env.DEV_PORT || "4000";
+    switch (process.env.STATUS) {
+      case "desarrollo":
+        this.port = process.env.DEV_PORT || "4000";
+        break;
+      case "produccion":
+        this.port = process.env.PROD_PORT || "4001";
+        break;
+
+      default:
+        if (process.env.NODE_ENV !== "test") {
+          this.port = "4002";
+        }
+        break;
     }
 
     // Métodos iniciales
@@ -49,7 +58,6 @@ class Server {
         await matrixDB.authenticate();
       }
       console.log(`Base de datos ${process.env.MYSQL_MATRIX_DB} en linea`);
-
     } catch (error: any) {
       throw new Error(error);
     }
@@ -69,8 +77,7 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.apiPaths.usuarios, userRoutes);
-    this.app.use(this.apiPaths.login, authRoutes);
+    this.app.use("/api", routes);
   }
 
   listen() {
