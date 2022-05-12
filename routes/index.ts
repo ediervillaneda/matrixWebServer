@@ -1,21 +1,27 @@
 import { Router } from "express";
 
-// import sub-routers
+// Importar controladores
 import userRoutes from "../routes/usuarioRoutes";
 import authRoutes from "../routes/authRoutes";
 import cliameRoutes from "./cliame/cliameRoutes";
+import proceduresRoutes from "./procedures/proceduresRoutes";
 
+// Importar middlewares
+import validarJWS from "../middlewares/validarJWS";
 
 let router = Router();
 
-// mount express paths, any addition middleware can be added as well.
-// ex. router.use('/pathway', middleware_function, sub-router);
+//Implementar rutas de autenticación, usuarios y cualquier otro middleware, que se desee usar en todas las rutas.
+// ejemplo. router.use('/tura', middleware_function, controller_function);
 
 router.use("/login", authRoutes);
-router.use("/usuarios", userRoutes);
+router.use("/usuarios", [validarJWS], userRoutes);
 
 // Tablas Cliame
-router.use("/cliame", cliameRoutes);
+router.use("/cliame", [validarJWS], cliameRoutes);
+
+// Procedimientos Almacenados
+router.use("/procedure", [validarJWS], proceduresRoutes);
 
 // Export the router
 export = router;

@@ -73,8 +73,8 @@ Content-Type: application/json; charset=utf-8
 
 ##### Descripción de la respuesta
 
-| Parámetro      | Tipo   | Descripción |
-| -------------- | ------ | ----------- |
+| Parámetro      | Tipo   | Descripción                                                                                                    |
+| -------------- | ------ | -------------------------------------------------------------------------------------------------------------- |
 | `token_sesion` | string | Un token que es válido por 1 hora y puede usarse para realizar solicitudes autenticadas en nombre del usuario. |
 
 ##### Se debe tener en cuenta que:
@@ -137,10 +137,10 @@ Content-Tipo: application/json; charset=utf-8
 
 ##### Posibles errores:
 
-| Codigo de Error  | Descripción                                 |
-| ---------------- | ------------------------------------------- |
-| 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
-| 404 No Encontrado    | Error al intentar buscar los usuarios.      |
+| Codigo de Error   | Descripción                                 |
+| ----------------- | ------------------------------------------- |
+| 401 Unauthorized  | El `Token` no es válido o ha sido revocado. |
+| 404 No Encontrado | Error al intentar buscar los usuarios.      |
 
 ### Obtener un usuario por id
 
@@ -160,8 +160,8 @@ Accept: application/json
 Accept-Charset: utf-8
 ```
 
-| Parámetro | Tipo     | Descripción                   |
-| --------- | -------- | ----------------------------- |
+| Parámetro | Tipo     | Descripción                    |
+| --------- | -------- | ------------------------------ |
 | `id`      | `string` | **Requerido**. Id del usuario. |
 
 ##### Ejemplo de la respuesta:
@@ -197,10 +197,10 @@ Content-Tipo: application/json; charset=utf-8
 
 ##### Posibles errores:
 
-| Codigo de Error  | Descripción                                 |
-| ---------------- | ------------------------------------------- |
-| 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
-| 404 No Encontrado    | Error al intentar buscar el usuario.        |
+| Codigo de Error   | Descripción                                 |
+| ----------------- | ------------------------------------------- |
+| 401 Unauthorized  | El `Token` no es válido o ha sido revocado. |
+| 404 No Encontrado | Error al intentar buscar el usuario.        |
 
 ### Obtener un usuario por nombre
 
@@ -257,13 +257,18 @@ Content-Tipo: application/json; charset=utf-8
 
 ##### Posibles errores:
 
-| Codigo de Error  | Descripción                                 |
-| ---------------- | ------------------------------------------- |
-| 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
-| 404 No Encontrado    | Error al intentar buscar el usuario.        |
+| Codigo de Error   | Descripción                                 |
+| ----------------- | ------------------------------------------- |
+| 401 Unauthorized  | El `Token` no es válido o ha sido revocado. |
+| 404 No Encontrado | Error al intentar buscar el usuario.        |
 
 #### Consultas API CLIAME
-[Documentación api **CLIAME**](routes/cliame/CLIAME.md)
+
+[Documentación api **CLIAME**](doc/CLIAME.md)
+
+#### Consultas API Procedimientos Almacenados
+
+[Documentación api **Procedimientos Almacenados**](doc/Procedures.MD)
 
 ## Variables de Entorno (Archivo .env)
 
