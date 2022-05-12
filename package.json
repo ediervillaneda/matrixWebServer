@@ -1,8 +1,8 @@
 {
   "name": "matrixwebserver",
-  "version": "0.0.5",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.0",
+  "description": "API Server for Matrix",
+  "main": "app.js",
   "scripts": {
     "dev": "node dist/app.js",
     "build": "tsc",

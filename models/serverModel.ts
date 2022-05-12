@@ -15,10 +15,7 @@ import validarCampos from "../middlewares/validarCampos";
 class Server {
   private app: Application;
   private port!: string;
-  private apiPaths = {
-    usuarios: "/api/usuarios",
-    login: "/api/login",
-  };
+
   private db: string = "";
 
   constructor() {

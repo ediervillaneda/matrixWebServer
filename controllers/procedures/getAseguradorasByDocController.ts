@@ -3,7 +3,6 @@ import matrixDB from "../../db/connectionMatrix";
 
 const procedure = async (req: Request, res: Response) => {
   const { documento, empresa } = req.body;
-  console.log(req.body);
 
   try {
     const query = "CALL wscall_getAseguradorasByDoc(:documento, :empresa)";
