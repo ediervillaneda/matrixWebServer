@@ -262,8 +262,8 @@ Content-Tipo: application/json; charset=utf-8
 | 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
 | 404 No Encontrado    | Error al intentar buscar el usuario.        |
 
-#### Consultas CLIAME
-[a relative link](routes/cliame/CLIAME.md)
+#### Consultas API CLIAME
+[Documentación api **CLIAME**](routes/cliame/CLIAME.md)
 
 ## Variables de Entorno (Archivo .env)
 
