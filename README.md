@@ -36,14 +36,14 @@ Compilar e iniciar el servidor
 ```http
  POST /api/login
 ```
+
 Para realizar cualquier operación con la API, necesitará un Token de autorización. Un Token de autorización, otorga un acceso limitado a las consultas que se pueden realizar. La única forma de obtener un token es por medio del logueo y en el cual éste será autoemitido.
 
-Ejemplo del request:
+#### Ejemplo del request:
+
 ```
-POST /v1/publications/b45573563f5a/posts HTTP/1.1
-Host: api.medium.com
-Authorization: Bearer 181d415f34379af07b2c11d144dfbe35d
-Content-Type: application/json
+POST /api/login HTTP/1.1
+Content-Tipo: application/json
 Accept: application/json
 Accept-Charset: utf-8
 
@@ -53,7 +53,15 @@ Accept-Charset: utf-8
 }
 ```
 
+##### Descripción de los parámetros
+
+| Parámetro        | Tipo   | Descripción                                    |
+| ---------------- | ------ | ---------------------------------------------- |
+| `nombre_usuario` | string | Usuario que se desea loguear en la aplicación. |
+| `contrasena`     | string | Contraseña del usuario.                        |
+
 Si el login es satisfactorio, se recibe de respuesta el token de autorización.
+
 ```
 HTTP/1.1 201 OK
 Content-Type: application/json; charset=utf-8
@@ -62,96 +70,206 @@ Content-Type: application/json; charset=utf-8
  "token_sesion": {{token}}
 }
 ```
-Con los siguientes parámetros:
 
-| Parámetro       | Tipo         |  Descripción                                     |
-| -------------   |--------------|--------------------------------------------------|
-| `token_sesion`  | string       |  Un token que es válido por 1 hora y puede usarse para realizar solicitudes autenticadas en nombre del usuario. |
+##### Descripción de la respuesta
 
-Se debe tener en cuenta que:
+| Parámetro      | Tipo   | Descripción                                                                                                    |
+| -------------- | ------ | -------------------------------------------------------------------------------------------------------------- |
+| `token_sesion` | string | Un token que es válido por 1 hora y puede usarse para realizar solicitudes autenticadas en nombre del usuario. |
+
+##### Se debe tener en cuenta que:
+
 - Todas las Api, necesitan tener en el header, en el campo Authorization el valor del token para poder realizar operaciones.
 - Si requiere generar un nuevo token,debe realizar de nuevo el proceso de logueo.
-
 
 ### **Obtener todos los usuarios**
 
 ```http
  GET /api/usuarios
 ```
-Retorna la lista de usuarios registrados en la aplicación.
 
-Ejemplo del request
+Retorna la lista de todos los usuarios registrados en la aplicación.
+
+#### Ejemplo del request
 
 ```
-GET /v1/me HTTP/1.1
-Host: api.medium.com
-Authorization: 181d415f34379af07b2c11d144dfbe35d
-Content-Type: application/json
+GET /api/usuarios HTTP/1.1
+Authorization: {{token}}
+Content-Tipo: application/json
 Accept: application/json
 Accept-Charset: utf-8
 ```
 
-La respuesta es un array json con los datos de los usuarios.
+##### Ejemplo de la respuesta:
 
-Example response:
+La respuesta es un array json con los datos de los usuarios.
 
 ```
 HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-
+Content-Tipo: application/json; charset=utf-8
 {
-   "usuarios": {
-       "id": 520,
-       "nombre_usuario": "edvillaneda",
-       "estado_usuario": "1",
-       "token_sesion": "",
-       "codigo_dependencia": "0",
-       "contrasena": "$2a$10$tXaFymuuJ/s5Fa.H4Jc0ouKVNwMlRhQfKaVDIvwqHyPt1odBlx/IG",
-       "cedula": "16864870",
-       "empresa": "PersonalSoft",
-       "cargo": "Senior Developer",
-       "correo": "edvillaneda@personalsoft.com"
-   }
+	"usuarios": {
+		"id": 520,
+		"nombre_usuario": "edvillaneda",
+		"estado_usuario": "1",
+		"codigo_dependencia": "0",
+		"cedula": "16864870",
+		"empresa": "PersonalSoft",
+		"cargo": "Senior Developer",
+		"correo": "edvillaneda@personalsoft.com"
+	},
+	{...},
+	{...}
 }
 ```
 
-| Parameter            | Type      | Description                           |
-| :------------------- | :-------- | :-------------------------------------|
+##### Descripción de la respuesta
+
+| Parámetro            | Tipo      | Descripción                           |
+| :------------------- | :-------- | :------------------------------------ |
 | `nombre_usuario`     | `string`  | Nombre de usuario de la aplicación.   |
 | `estado_usuario`     | `boolean` | Indicador de usuario activo/inactivo. |
 | `codigo_dependencia` | `string`  | Nombre del usuario.                   |
-| `contrasena`         | `string`  | Nombre del usuario.                   |
 | `cedula`             | `string`  | Número de identificación del usuario. |
 | `empresa`            | `string`  | Empresa del usuario.                  |
 | `cargo`              | `string`  | Cargo del usuario.                    |
 | `correo`             | `string`  | Correo electrónico del usuario.       |
 
-Posibles errores:
-| Codigo de Error  | Descripción                                 |
-| -----------------|---------------------------------------------|
-| 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
-| 404 Not Found    | Error al intentar buscar los usuarios.      |
+##### Posibles errores:
 
+| Codigo de Error  | Descripción                                 |
+| ---------------- | ------------------------------------------- |
+| 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
+| 404 No Encontrado    | Error al intentar buscar los usuarios.      |
 
 ### Obtener un usuario por id
 
 ```http
- GET /api/usuarios/${id}
+GET /api/usuarios/${id}
 ```
 
-| Parameter | Type     | Description                   |
-| :-------- | :------- | :---------------------------- |
-| `id`      | `string` | **Required**. Id del usuario. |
+Obtiene la información de usuario, filtrado por el id (_primary key_)
+
+#### Ejemplo del request
+
+```
+GET /api/usuarios/${id} HTTP/1.1
+Authorization: {{token}}
+Content-Tipo: application/json
+Accept: application/json
+Accept-Charset: utf-8
+```
+
+| Parámetro | Tipo     | Descripción                   |
+| --------- | -------- | ----------------------------- |
+| `id`      | `string` | **Requerido**. Id del usuario. |
+
+##### Ejemplo de la respuesta:
+
+La respuesta es un json con los datos de los usuarios.
+
+```
+HTTP/1.1 200 OK
+Content-Tipo: application/json; charset=utf-8
+{
+	"id": 520,
+	"nombre_usuario": "edvillaneda",
+	"estado_usuario": "1",
+	"codigo_dependencia": "0",
+	"cedula": "16864870",
+	"empresa": "PersonalSoft",
+	"cargo": "Senior Developer",
+	"correo": "edvillaneda@personalsoft.com"
+}
+```
+
+##### Descripción de la respuesta
+
+| Parámetro            | Tipo      | Descripción                           |
+| :------------------- | :-------- | :------------------------------------ |
+| `nombre_usuario`     | `string`  | Nombre de usuario de la aplicación.   |
+| `estado_usuario`     | `boolean` | Indicador de usuario activo/inactivo. |
+| `codigo_dependencia` | `string`  | Nombre del usuario.                   |
+| `cedula`             | `string`  | Número de identificación del usuario. |
+| `empresa`            | `string`  | Empresa del usuario.                  |
+| `cargo`              | `string`  | Cargo del usuario.                    |
+| `correo`             | `string`  | Correo electrónico del usuario.       |
+
+##### Posibles errores:
+
+| Codigo de Error  | Descripción                                 |
+| ---------------- | ------------------------------------------- |
+| 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
+| 404 No Encontrado    | Error al intentar buscar el usuario.        |
 
 ### Obtener un usuario por nombre
 
 ```http
- GET /api/usuarios/${nombre}
+GET /api/usuarios/${nombre_usuario}
 ```
+
+Obtiene la información de un usuario filtrado por el `nombre de usuario`.
+
+#### Ejemplo del request
+
+```
+GET /api/usuarios/${nombre_usuario} HTTP/1.1
+Authorization: {{token}}
+Content-Tipo: application/json
+Accept: application/json
+Accept-Charset: utf-8
+```
+
+| Parámetro        | Tipo     | Descripción             |
+| ---------------- | -------- | ----------------------- |
+| `nombre_usuario` | `string` | **Requerido**. Usuario. |
+
+##### Ejemplo de la respuesta:
+
+La respuesta es un json con los datos de los usuarios.
+
+```
+HTTP/1.1 200 OK
+Content-Tipo: application/json; charset=utf-8
+{
+	"id": 520,
+	"nombre_usuario": "edvillaneda",
+	"estado_usuario": "1",
+	"codigo_dependencia": "0",
+	"cedula": "16864870",
+	"empresa": "PersonalSoft",
+	"cargo": "Senior Developer",
+	"correo": "edvillaneda@personalsoft.com"
+}
+```
+
+##### Descripción de la respuesta
+
+| Parámetro            | Tipo      | Descripción                           |
+| :------------------- | :-------- | :------------------------------------ |
+| `nombre_usuario`     | `string`  | Nombre de usuario de la aplicación.   |
+| `estado_usuario`     | `boolean` | Indicador de usuario activo/inactivo. |
+| `codigo_dependencia` | `string`  | Nombre del usuario.                   |
+| `cedula`             | `string`  | Número de identificación del usuario. |
+| `empresa`            | `string`  | Empresa del usuario.                  |
+| `cargo`              | `string`  | Cargo del usuario.                    |
+| `correo`             | `string`  | Correo electrónico del usuario.       |
+
+##### Posibles errores:
+
+| Codigo de Error  | Descripción                                 |
+| ---------------- | ------------------------------------------- |
+| 401 Unauthorized | El `Token` no es válido o ha sido revocado. |
+| 404 No Encontrado    | Error al intentar buscar el usuario.        |
+
+#### Consultas CLIAME
+[a relative link](routes/cliame/CLIAME.md)
 
 ## Variables de Entorno (Archivo .env)
 
 Para ejecutar este proyecto es necesario configurar las variables de entorno, en el archivo .env que debe existir o crearse en la raíz.
+
+### Variables generales
 
 `STATUS=` Ambiente de desarrollo
 

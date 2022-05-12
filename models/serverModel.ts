@@ -6,8 +6,7 @@ import userDB from "../db/connectionUsers";
 import matrixDB from "../db/connectionMatrix";
 
 // rutas
-import userRoutes from "../routes/usuarioRoutes";
-import authRoutes from "../routes/authRoutes";
+import routes from "../routes";
 
 //middlewares
 import validarJWS from "../middlewares/validarJWS";
@@ -78,8 +77,7 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.apiPaths.usuarios, userRoutes);
-    this.app.use(this.apiPaths.login, authRoutes);
+    this.app.use("/api", routes);
   }
 
   listen() {

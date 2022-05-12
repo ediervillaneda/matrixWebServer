@@ -1,15 +1,17 @@
 require("dotenv").config();
 import { Sequelize } from "sequelize";
 
-const dbM = process.env.MYSQL_MATRIX_DB || " ";
-const userM = process.env.MYSQL_MATRIX_USER || " ";
-const passM = process.env.MYSQL_MATRIX_PASS || " ";
-const hostM = process.env.MYSQL_MATRIX_HOST || " ";
+const db = process.env.MYSQL_MATRIX_DB || " ";
+const user = process.env.MYSQL_MATRIX_USER || " ";
+const pass = process.env.MYSQL_MATRIX_PASS || " ";
+const host = process.env.MYSQL_MATRIX_HOST || " ";
+const port = Number(process.env.MYSQL_MATRIX_PORT || 2482);
 
-const matrixDB = new Sequelize(dbM, userM, passM, {
-  host: hostM,
+const matrixDB = new Sequelize(db, user, pass, {
+  host,
+  port,
   dialect: "mysql",
-  logging: false,
+  logging: true,
   // define: {
   //   timestamps: false,
   // },
