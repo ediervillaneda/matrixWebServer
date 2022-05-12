@@ -15,7 +15,6 @@ router.post(
     check("contraseña", "La contraseña debe tener al menos un numero").notEmpty(),
     check("constraseña", "La contraseña debe tener al menos 6 caracteres").isLength({ min: 6 }),
     validarCampos,
-    validarJWS,
   ],
   postUsuario
 );

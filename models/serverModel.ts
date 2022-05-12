@@ -45,21 +45,28 @@ class Server {
   }
 
   async dbConnection() {
-    try {
-      this.db = process.env.MYSQL_USUARIOS_DB || "";
-      if (!this.db) {
-        await userDB.authenticate();
-      }
+    this.db = process.env.MYSQL_USUARIOS_DB || "";
+    if (!this.db) {
+      await userDB
+        .authenticate()
+        .then(() => {
+          console.info(`Base de datos ${process.env.MYSQL_USUARIOS_DB} en linea`);
+        })
+        .catch((error) => {
+          console.error(`No se pudo conectar a ${process.env.MYSQL_USUARIOS_DB}. Error: ${error}`);
+        });
+    }
 
-      console.log(`Base de datos ${process.env.MYSQL_USUARIOS_DB} en linea`);
-
-      this.db = process.env.MYSQL_MATRIX_DB || "";
-      if (!this.db) {
-        await matrixDB.authenticate();
-      }
-      console.log(`Base de datos ${process.env.MYSQL_MATRIX_DB} en linea`);
-    } catch (error: any) {
-      throw new Error(error);
+    this.db = process.env.MYSQL_MATRIX_DB || "";
+    if (!this.db) {
+      await matrixDB
+        .authenticate()
+        .then(() => {
+          console.log(`Base de datos ${process.env.MYSQL_MATRIX_DB} en linea`);
+        })
+        .catch((error) => {
+          console.log(`No se pudo conectar a ${process.env.MYSQL_MATRIX_DB}. Error: ${error}`);
+        });
     }
   }
 
