@@ -2,6 +2,7 @@ import { Router } from "express";
 
 // Importar controladores
 import userRoutes from "../routes/usuarioRoutes";
+import applicationRoute from "../routes/aplicacionRoutes";
 import authRoutes from "../routes/authRoutes";
 import cliameRoutes from "./cliame/cliameRoutes";
 import proceduresRoutes from "./procedures/proceduresRoutes";
@@ -16,6 +17,7 @@ let router = Router();
 
 router.use("/login", authRoutes);
 router.use("/usuarios", [validarJWS], userRoutes);
+router.use("/aplicacion",[validarJWS],applicationRoute);
 
 // Tablas Cliame
 router.use("/cliame", [validarJWS], cliameRoutes);
