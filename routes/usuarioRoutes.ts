@@ -3,7 +3,6 @@ import { check } from "express-validator";
 
 import { deleteUsuario, getUsuario, getUsuarios, postUsuario, putUsuario } from "../controllers/usuariosController";
 import validarCampos from "../middlewares/validarCampos";
-import validarJWS from "../middlewares/validarJWS";
 
 const router = Router();
 
