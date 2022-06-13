@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import matrixDB from "../../db/connectionMatrix";
 
-const getAseguradorasByDoc = async (req: Request, res: Response) => {
-  const { documento, empresa } = req.body;
+const medidasAntropometricas = async (req: Request, res: Response) => {
+  const { historia } = req.body;
 
   try {
-    const query = "CALL wscall_getAseguradorasByDoc(:documento, :empresa)";
-    const replacements = { replacements: { documento, empresa } };
+    const query = "CALL sp_getMedidasAntropometricas(:historia)";
+    const replacements = { replacements: { historia } };
 
     const data = await matrixDB.query(query, replacements);
 
@@ -22,4 +22,4 @@ const getAseguradorasByDoc = async (req: Request, res: Response) => {
   }
 };
 
-export default getAseguradorasByDoc;
+export default medidasAntropometricas;

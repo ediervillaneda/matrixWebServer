@@ -6,10 +6,11 @@ import validarCampos from "../../middlewares/validarCampos";
 
 // Controllers
 import getAseguradorasByDoc from "../../controllers/procedures/getAseguradorasByDocController";
+import medidasAntropometricas from "../../controllers/procedures/medidasAntropometricasController";
 
 let router = Router();
 
-router.use(
+router.get(
   "/getAseguradorasByDoc",
   [
     check("documento").not().isEmpty().withMessage("El número de documento es obligatorio"),
@@ -17,6 +18,12 @@ router.use(
     validarCampos,
   ],
   getAseguradorasByDoc
+);
+
+router.get(
+  "/getMedidasAantropometricas",
+  [check("historia").not().isEmpty().withMessage("El número de historia es obligatoria"), validarCampos],
+  medidasAntropometricas
 );
 
 export default router;
