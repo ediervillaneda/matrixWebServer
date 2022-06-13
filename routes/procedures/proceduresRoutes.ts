@@ -21,7 +21,7 @@ router.get(
 );
 
 router.get(
-  "/getMedidasAantropometricas",
+  "/getMedidasAntropometricas",
   [check("historia").not().isEmpty().withMessage("El número de historia es obligatoria"), validarCampos],
   medidasAntropometricas
 );
