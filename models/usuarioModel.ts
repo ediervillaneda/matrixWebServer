@@ -13,6 +13,12 @@ const Usuario = userDB.define(
       allowNull: false,
       field: "id_usuario",
     },
+    nombres: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: { msg: "El nombres del usuario es requerido" },
+      },
+    },
     nombre_usuario: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -47,6 +53,7 @@ const Usuario = userDB.define(
         this.setDataValue("contrasena", bcrypt.hashSync(value, salt));
       },
     },
+
     cedula: DataTypes.STRING,
     empresa: DataTypes.STRING,
     cargo: DataTypes.STRING,

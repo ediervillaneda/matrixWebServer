@@ -9,7 +9,7 @@ const router = Router();
 
 router.get("/", getUsuarios);
 router.get("/getOne", getUsuario);
-router.post("/create", [check("constraseña", "La contraseña debe tener al menos 6 caracteres").isLength({ min: 8 }), validarCampos], postUsuario);
+router.post("/create", [validarCampos], postUsuario);
 router.put("/update/:id", putUsuario);
 router.delete("/delete/:id", deleteUsuario);
 
