@@ -9,7 +9,7 @@ export const getUsuarios = async (req: Request, res: Response) => {
     const usuarios = await Usuario.findAll({ attributes: { exclude: ["contrasena", "token_sesion"] } });
     res.json({ usuarios });
   } catch (debug) {
-    res.status(404).json({ msg: `Error al intentar buscar los usuarios`, error:true, debug });
+    res.status(404).json({ msg: `Error al intentar buscar los usuarios`, error: true, debug});
   }
 };
 
