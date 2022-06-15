@@ -10,10 +10,10 @@ const cliame105 = async (req: Request, res: Response) => {
     if (data) {
       res.json(data);
     } else {
-      res.status(404).json({ msg: "Parametros no encontrados" });
+      res.status(404).json({ msg: "Parametros no encontrados", error: true });
     }
-  } catch (error) {
-    res.status(500).json({ msg: "Error al intentar realizar la consulta", error });
+  } catch (debug) {
+    res.status(500).json({ msg: "Error al intentar realizar la consulta", error:true, debug });
   }
 };
 

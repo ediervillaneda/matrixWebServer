@@ -13,12 +13,10 @@ const medidasAntropometricas = async (req: Request, res: Response) => {
     if (data) {
       res.json(data);
     } else {
-      res.status(404).json({ msg: "Sin valores encontrados" });
+      res.status(404).json({ msg: "Sin valores encontrados", error:true });
     }
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({ msg: "Error al intentar realizar la consulta", error });
+  } catch (debug) {
+    res.status(500).json({ msg: "Error al intentar realizar la consulta", error:true, debug });
   }
 };
 
