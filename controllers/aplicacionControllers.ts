@@ -7,9 +7,9 @@ import Aplicacion from "../models/aplicacionModel";
 
 export const getAplicaciones = async(req: Request, res:Response) =>{
     try{
-        const aplicaiones = await Aplicacion.findAll();
-        res.json({aplicaiones});
-    }catch(error: any){
-        res.status(404).json({msg: `Error al intentar buscar las Aplicaciones`, error});
+        const aplicaciones = await Aplicacion.findAll();
+        res.json({aplicaciones});
+    }catch(debug){
+        res.status(404).json({msg: `Error al intentar buscar las Aplicaciones`, error:true, debug});
     }
 };
