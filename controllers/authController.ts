@@ -24,16 +24,16 @@ const login = async (req: Request, res: Response) => {
 
           res.json({ token_sesion });
         } else {
-          res.status(500).json({ msg: `Error al intentar generar el token` });
+          res.status(500).json({ msg: `Error al intentar generar el token`, error:true });
         }
       } else {
-        res.status(401).json({ msg: "Password incorrecto" });
+        res.status(401).json({ msg: "Password incorrecto", error:true });
       }
     } else {
-      res.status(401).json({ msg: "Usuario no encontrado" });
+      res.status(401).json({ msg: "Usuario no encontrado", error:true });
     }
-  } catch (error) {
-    res.status(401).json({ msg: "Error al intentar loguearse", error });
+  } catch (debug) {
+    res.status(401).json({ msg: "Error al intentar loguearse", error:true, debug });
   }
 };
 
