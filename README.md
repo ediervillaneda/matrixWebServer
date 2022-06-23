@@ -262,6 +262,56 @@ Content-Tipo: application/json; charset=utf-8
 | 401 Unauthorized  | El `Token` no es válido o ha sido revocado. |
 | 404 No Encontrado | Error al intentar buscar el usuario.        |
 
+### Validar Usuario
+
+```http
+GET /api/usuarios/validateUser
+```
+
+Valida si el susario y la contraseña son correctos.
+
+#### Ejemplo del request
+
+```
+GET /api/usuarios/${id} HTTP/1.1
+Authorization: {{token}}
+Content-Tipo: application/json
+Accept: application/json
+Accept-Charset: utf-8
+```
+
+| Parámetro        | Tipo     | Descripción                         |
+| ---------------- | ---------| ----------------------------------- |
+| `nombre_usuario` | `string` | Nombre de usuario de la aplicación. |
+| `contrasena`     | `string` | Contraseña del usuario.             |
+
+##### Ejemplo de la respuesta:
+
+La respuesta es un json con los datos de los usuarios.
+
+```
+HTTP/1.1 200 OK
+Content-Tipo: application/json; charset=utf-8
+{
+    "valid": true,
+    "error": false
+}
+```
+
+##### Descripción de la respuesta
+
+| Parámetro | Tipo      | Descripción            |
+| :-------- | :-------- | :--------------------- |
+| `valid`   | `boolean` | Usuario es valido.     |
+| `error`   | `boolean` | Error en la solicitud. |
+
+##### Posibles errores:
+
+| Codigo de Error   | Descripción                                 |
+| ----------------- | ------------------------------------------- |
+| 401 Unauthorized  | El `Token` no es válido o ha sido revocado. |
+| 404 No Encontrado | Error al intentar buscar el usuario.        |
+
 #### Consultas API CLIAME
 
 [Documentación api **CLIAME**](doc/CLIAME.md)
