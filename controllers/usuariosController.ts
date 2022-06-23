@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+const bcrypt = require("bcryptjs");
 import Usuario from "../models/usuarioModel";
 
 /**
@@ -9,7 +10,7 @@ export const getUsuarios = async (req: Request, res: Response) => {
     const usuarios = await Usuario.findAll({ attributes: { exclude: ["contrasena", "token_sesion"] } });
     res.json({ usuarios });
   } catch (debug) {
-    res.status(404).json({ msg: `Error al intentar buscar los usuarios`, error: true, debug});
+    res.status(404).json({ msg: `Error al intentar buscar los usuarios`, error: true, debug });
   }
 };
 
@@ -18,10 +19,6 @@ export const getUsuarios = async (req: Request, res: Response) => {
  */
 export const getUsuario = async (req: Request, res: Response) => {
   const { query } = req;
-
-  if (!query.length) {
-    res.status(404).json({ msg: `Error al intentar buscar el usuario`, error:true });
-  }
 
   try {
     let where = {};
@@ -40,10 +37,38 @@ export const getUsuario = async (req: Request, res: Response) => {
     if (usuario) {
       res.status(200).json({ usuario });
     } else {
-      res.status(404).json({ msg: `No existe un usuario`, error:true });
+      res.status(404).json({ msg: `No existe un usuario`, error: true });
     }
   } catch (debug) {
-    res.status(500).json({ msg: `Error al intentar buscar el usuario`, error:true, debug });
+    res.status(500).json({ msg: `Error al intentar buscar el usuario`, error: true, debug });
+  }
+};
+
+/**
+ * Validar el usuario y contraseña de un usuario
+ */
+export const validateUser = async (req: Request, res: Response) => {
+  const { body } = req;
+
+  try {
+    let where = { nombre_usuario: body.nombre_usuario };
+
+    const usuario = await Usuario.findOne({ where });
+    if (usuario) {
+      const hash = usuario.getDataValue("contrasena");
+
+      const valid = bcrypt.compareSync(body.contrasena, hash);
+
+      if (valid) {
+        res.status(200).json({ valid, error: false });
+      } else {
+        res.status(404).json({ msg: `La contraseña no es valida`, error: true });
+      }
+    } else {
+      res.status(404).json({ msg: `Usuario no encontrado`, error: true });
+    }
+  } catch (debug) {
+    res.status(500).json({ msg: `Error al intentar buscar el usuario`, error: true, debug });
   }
 };
 
@@ -64,7 +89,7 @@ export const postUsuario = async (req: Request, res: Response) => {
 
     res.status(200).json({ usuario });
   } catch (debug) {
-    res.status(500).json({ msg: `Error al intentar crear el usuario ${body.nombre_usuario}`, error:true, debug });
+    res.status(500).json({ msg: `Error al intentar crear el usuario ${body.nombre_usuario}`, error: true, debug });
   }
 };
 
@@ -82,10 +107,10 @@ export const putUsuario = async (req: Request, res: Response) => {
       await usuario.save();
       res.status(200).json({ msg: `Usuario ${usuario.getDataValue("nombre_usuario")} actualizado` });
     } else {
-      res.status(404).json({ msg: `No existe un usuario con el id`, error:true });
+      res.status(404).json({ msg: `No existe un usuario con el id: ${id}`, error: true });
     }
   } catch (debug) {
-    res.status(500).json({ msg: `Error al intentar actualizar el usuario`, error:true, debug });
+    res.status(500).json({ msg: `Error al intentar actualizar el usuario`, error: true, debug });
   }
 };
 
@@ -113,9 +138,9 @@ export const deleteUsuario = async (req: Request, res: Response) => {
       await usuario.save({ fields: ["estado"] });
       res.json({ msg: `Usuario '${usuario.getDataValue("nombre_usuario")}' ${msg}` });
     } else {
-      res.status(404).json({ msg: `No existe un usuario con el id ${id}`, error:true });
+      res.status(404).json({ msg: `No existe un usuario con el id ${id}`, error: true });
     }
   } catch (debug) {
-    res.status(500).json({ msg: `Error al intentar eliminar el usuario ${id}`, error:true, debug });
+    res.status(500).json({ msg: `Error al intentar eliminar el usuario ${id}`, error: true, debug });
   }
 };
