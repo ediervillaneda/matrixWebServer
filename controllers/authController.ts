@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import generarJWT from "../helpers/generarJWT";
-import Usuario from "../models/usuarioModel";
+import Usuario from "../models/permisos/usuarioModel";
 const Sequelize = require("sequelize");
 
 const bcrypt = require("bcryptjs");
