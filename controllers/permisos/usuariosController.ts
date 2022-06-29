@@ -56,11 +56,12 @@ export const validateUser = async (req: Request, res: Response) => {
     const usuario = await Usuario.findOne({ where });
     if (usuario) {
       const hash = usuario.getDataValue("contrasena");
+      const usuarioId = usuario.getDataValue("id");
 
       const valid = bcrypt.compareSync(body.contrasena, hash);
 
       if (valid) {
-        res.status(200).json({ valid, error: false });
+        res.status(200).json({ valid, usuarioId, error: false });
       } else {
         res.status(404).json({ msg: `La contraseña no es valida`, error: true });
       }
