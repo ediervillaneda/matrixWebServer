@@ -1,10 +1,10 @@
 import { Router } from "express";
 
 // Importar controladores
-import userRoutes from "../routes/usuarioRoutes";
-import applicationRoute from "../routes/aplicacionRoutes";
-import authRoutes from "../routes/authRoutes";
+import applicationRoute from "./aplicacionRoutes";
+import authRoutes from "./authRoutes";
 import cliameRoutes from "./cliame/cliameRoutes";
+import permisosRoutes from "./permisos/permisosRoutes";
 import proceduresRoutes from "./procedures/proceduresRoutes";
 
 // Importar middlewares
@@ -16,7 +16,7 @@ let router = Router();
 // ejemplo. router.use('/tura', middleware_function, controller_function);
 
 router.use("/login", authRoutes);
-router.use("/usuarios", [validarJWS], userRoutes);
+router.use("/usuarios", [validarJWS], permisosRoutes);
 router.use("/aplicacion",[validarJWS],applicationRoute);
 
 // Tablas Cliame

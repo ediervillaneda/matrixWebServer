@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 const jwt = require("jsonwebtoken");
 
-import Usuario from "../models/usuarioModel";
+import Usuario from "../models/permisos/usuarioModel";
 
 const validarJWS = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.header("Authorization");

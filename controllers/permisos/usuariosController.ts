@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 const bcrypt = require("bcryptjs");
-import Usuario from "../models/usuarioModel";
+import Usuario from "../../models/permisos/usuarioModel";
 
 /**
  * Obtener todos los usuarios

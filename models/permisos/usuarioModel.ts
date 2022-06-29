@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import userDB from "../db/connectionUsers";
+import userDB from "../../db/connectionUsers";
 
 const bcrypt = require("bcryptjs");
 
