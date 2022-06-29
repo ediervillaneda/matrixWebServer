@@ -13,16 +13,17 @@ const login = async (req: Request, res: Response) => {
 
     if (usuario) {
       let uPass = usuario.getDataValue("contrasena");
+      let usuarioId = usuario.getDataValue("id");
 
       if (bcrypt.compareSync(contrasena, uPass)) {
-        const token_sesion = await generarJWT(usuario.getDataValue("id"));
+        const token_sesion = await generarJWT(usuarioId);
         if (token_sesion) {
           await usuario.update({
             ultimo_ingreso: Sequelize.fn("NOW"),
             token_sesion,
           });
 
-          res.json({ token_sesion });
+          res.json({ usuarioId, token_sesion });
         } else {
           res.status(500).json({ msg: `Error al intentar generar el token`, error:true });
         }
