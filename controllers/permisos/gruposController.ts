@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import Grupo from "../../models/permisos/grupoModel";
 import GrupoUsuario from "../../models/permisos/grupoUsuarioModel";
-const bcrypt = require("bcryptjs");
 
 /**
  * Inhabilitar un usuario
@@ -9,17 +8,11 @@ const bcrypt = require("bcryptjs");
 export const getGrupos = async (req: Request, res: Response) => {
   const { usuarioId } = req.body;
 
-
   try {
-    let where = { usuarioId: usuarioId };
-    const grupo = await GrupoUsuario.findAll({
-      where,
-      include: Grupo,
-    });
+    let where = { usuarioId };
+    const grupo = await GrupoUsuario.findAll({ where, include: [Grupo] });
 
     if (grupo) {
-      console.log(grupo);
-
       res.json(grupo);
     } else {
       res.status(404).json({ msg: `No existe un usuario con el id ${usuarioId}`, error: true });

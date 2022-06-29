@@ -28,6 +28,9 @@ const GrupoUsuario = userDB.define(
   },
   {
     timestamps: false,
+    defaultScope: {
+      attributes: { exclude: ["grupoId", "usuarioId"] },
+    },
   }
 );
 

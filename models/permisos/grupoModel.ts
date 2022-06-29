@@ -20,6 +20,9 @@ const Grupo = userDB.define(
   },
   {
     timestamps: false,
+    defaultScope: {
+      attributes: { exclude: ["id"] },
+    },
   }
 );
 
